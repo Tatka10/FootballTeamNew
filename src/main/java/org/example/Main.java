@@ -1,24 +1,34 @@
 package org.example;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.FileWriter;
 import java.util.*;
 // сумму от индекса до индекса
-
 
 public class Main {
     public static void main(String[] args) {
         List<Integer> effect = readFile("input.txt");
         effect.sort(Comparator.naturalOrder());
         System.out.println(effect);
+        int z = countSummEffectivity(listToInt(effect));
+        System.out.println(z);
+        writeAnswer(z);
+
+    }
+
+    public static int[] listToInt(List<Integer> eff) {
+        int[] mass = new int[eff.size()];
+        for (int x = 0; x < eff.size(); x++) {
+            mass[x] = eff.get(x);
+        }
+        return mass;
     }
 
     public static List<Integer> readFile(String fname) {
+        int sumOfPlayers = 0;
         List<Integer> effect = new ArrayList<>();
         try (Scanner scan = new Scanner(new File(fname))) {
-            int sumOfPlayers = scan.nextInt();
+            sumOfPlayers = scan.nextInt();
             for (int x = 0; x < sumOfPlayers; x++) {
                 int k = scan.nextInt();
                 effect.add(x, k);
@@ -96,6 +106,17 @@ public class Main {
         }
         if (y == 1) z = z + mass[y - 1];
         return z;
+    }
+
+    public static void writeAnswer(int z) {
+        try {
+            FileWriter fileWriter = new FileWriter("answer.txt");
+            String ans= String.valueOf(z);
+            System.out.println("в файл запишется значение "+ans);
+            fileWriter.write(ans);
+        } catch (Exception e) {
+            System.out.println("Информация не сохранена в файл");
+        }
     }
 //    public static int summElemMassive(int[] mass, int x, int y) {
 //        int summ = 0;
